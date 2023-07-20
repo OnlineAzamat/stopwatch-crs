@@ -1,0 +1,57 @@
+#root {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.container {
+  padding: 15px 3rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.time {
+  font-size: 4rem;
+}
+
+.mt-10 {
+  margin-top: 10rem;
+}
+
+.control-btn {
+  box-shadow: 0 5px 7px 1px rgb(199, 199, 255);
+  border: none;
+  background-color: #fff;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.15s;
+}
+.control-btn:active {
+  transform: scale(.9);
+}
+.control-btn i {
+  color: #535bf2;
+  display: block;
+}
+
+.active {
+  display: block;
+}
+
+.disable {
+  display: none;
+}
