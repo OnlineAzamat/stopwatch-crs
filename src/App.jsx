@@ -2,7 +2,19 @@ import { Component } from 'react'
 import './App.css'
 
 class App extends Component {
-  state = { millsecond: 0o0, second: 0o0, minute: 0o0, hour: 0, interval: "", millSecTimer: "", playBtnState: true, pauseBtnState: false, clearBtnState: false, }
+  state = {
+    millsecond: 0, 
+    second: 0, 
+    minute: 0, 
+    hour: 0, 
+    interval: "", 
+    millSecTimer: "", 
+    playBtnState: true, 
+    pauseBtnState: false, 
+    clearBtnState: false,
+    intervalsBtnState: false,
+    intervalsStorage: [],
+  }
 
   play = () => {
     let timer = setInterval(() => {
@@ -45,7 +57,8 @@ class App extends Component {
       millSecTimer: millSecTimer,
       playBtnState: false, 
       pauseBtnState: true, 
-      clearBtnState: false, 
+      clearBtnState: false,
+      intervalsBtnState: true,
     })
 
   }
@@ -68,24 +81,56 @@ class App extends Component {
       millsecond: 0,
       second: 0,
       minute: 0,
-      hour: 0
+      hour: 0,
+      intervalsStorage: []
+    })
+  }
+
+  intervalClicked = () => {
+    const { intervalsStorage, second, minute, millsecond, } = this.state;
+
+    intervalsStorage.push({
+      waqit: minute + ":" + second + "." + millsecond,
+      minute: minute,
+      second: second,
+      millsecond: millsecond,
+    })
+
+    this.setState({
+      intervalsStorage: intervalsStorage
     })
   }
 
   render() {
-    const { hour, second, minute, millsecond, playBtnState, pauseBtnState, clearBtnState } = this.state;
+    const { hour, second, minute, millsecond, playBtnState, pauseBtnState, clearBtnState, intervalsBtnState, intervalsStorage } = this.state;
 
     return (
       <div className='container'>
         <div className="row">
           <div className="time">{hour >= 1 ? hour + ":" : ""}{minute < 10 ? "0" + minute : minute}:{second < 10 ? "0" + second : second}.{millsecond < 10 ? "0" + millsecond : millsecond}</div>
         </div>
-        <div className="row mt-10">
-          <button className={playBtnState ? "control-btn active" : "control-btn disable"} onClick={this.play}>
-            <i className="bi bi-play-fill"></i>
-          </button>
+        <div className="timer-container">
+          {
+            intervalsStorage.map((item, index) => {
+              return (
+                <div className="intervalRes" key={index}>
+                  <div className="number opacity-1"><i className='bi bi-flag-fill'></i>{index + 1}</div>
+                  <div className="parqi opacity-1">+ {item?.parqi}</div>
+                  <div className="waqit">{item?.waqit}</div>
+                </div>
+              )
+            })
+          }
+        </div>
+        <div className="row control-btns">
           <button className={clearBtnState ? "control-btn active" : "control-btn disable"} onClick={this.clear}>
             <i className="bi bi-stop-fill"></i>
+          </button>
+          <button className={intervalsBtnState ? "control-btn active" : "control-btn disable"} onClick={this.intervalClicked}>
+            <i className="bi bi-flag-fill"></i>
+          </button>
+          <button className={playBtnState ? "control-btn active" : "control-btn disable"} onClick={this.play}>
+            <i className="bi bi-play-fill"></i>
           </button>
           <button className={pauseBtnState ? "control-btn active" : "control-btn disable"} onClick={this.pause}>
             <i className="bi bi-pause-fill"></i>

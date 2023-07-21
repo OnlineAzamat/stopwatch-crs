@@ -8,7 +8,9 @@
 }
 
 .container {
+  position: relative;
   padding: 15px 3rem;
+  height: 550px;
 }
 
 .row {
@@ -26,6 +28,12 @@
   margin-top: 10rem;
 }
 
+.control-btns {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
 .control-btn {
   box-shadow: 0 5px 7px 1px rgb(199, 199, 255);
   border: none;
@@ -54,4 +62,31 @@
 
 .disable {
   display: none;
+}
+
+.timer-container {
+  width: 105%;
+  padding: 1.5rem 10% 3rem 0;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+  height: 330px;
+  overflow-Y: scroll;
+}
+
+.intervalRes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.intervalRes i {
+  font-size: 1rem;
+  margin-right: .5rem;
+}
+.opacity-1 {
+  opacity: .5;
 }
