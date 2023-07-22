@@ -79,13 +79,26 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 600;
 }
 
 .intervalRes i {
   font-size: 1rem;
-  margin-right: .5rem;
+  margin-right: .3rem;
+}
+
+.intervalRes .order {
+  width: 23%;
+  background-color: #535bf2;
+}
+.intervalRes .difference {
+  width: 40%;
+  background-color: #56ac21;
+}
+.intervalRes .int-time {
+  width: 40%;
+  background-color: #cf158b;
 }
 .opacity-1 {
   opacity: .5;

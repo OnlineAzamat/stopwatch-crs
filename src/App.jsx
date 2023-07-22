@@ -112,11 +112,19 @@ class App extends Component {
         <div className="timer-container">
           {
             intervalsStorage.map((item, index) => {
+              if (index === 0) {
+                return null
+              }
               return (
                 <div className="intervalRes" key={index}>
-                  <div className="number opacity-1"><i className='bi bi-flag-fill'></i>{index + 1}</div>
-                  <div className="parqi opacity-1">+ {item?.parqi}</div>
-                  <div className="waqit">{item?.waqit}</div>
+                  <div className="order opacity-1"><i className='bi bi-flag-fill'></i>{index + 1}</div>
+                  {/* difference */}
+                  <div className="difference opacity-1">+ {
+                  item?.minute - intervalsStorage[index - 1]?.minute + ":" + 
+                  item?.second - intervalsStorage[index - 1]?.second + "." +
+                  item?.millsecond - intervalsStorage[index - 1]?.millsecond
+                  }</div>
+                  <div className="int-time">{item?.waqit}</div>
                 </div>
               )
             })
