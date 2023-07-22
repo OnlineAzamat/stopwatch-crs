@@ -70,6 +70,7 @@ class App extends Component {
       playBtnState: true, 
       pauseBtnState: false, 
       clearBtnState: true,
+      intervalsBtnState: false,
     })
   }
 
@@ -90,7 +91,7 @@ class App extends Component {
     const { intervalsStorage, second, minute, millsecond, } = this.state;
 
     intervalsStorage.push({
-      waqit: minute + ":" + second + "." + millsecond,
+      time: minute + ":" + second + "." + millsecond,
       minute: minute,
       second: second,
       millsecond: millsecond,
@@ -99,11 +100,13 @@ class App extends Component {
     this.setState({
       intervalsStorage: intervalsStorage
     })
+
+    console.log(intervalsStorage);
   }
 
   render() {
     const { hour, second, minute, millsecond, playBtnState, pauseBtnState, clearBtnState, intervalsBtnState, intervalsStorage } = this.state;
-
+    
     return (
       <div className='container'>
         <div className="row">
@@ -112,20 +115,35 @@ class App extends Component {
         <div className="timer-container">
           {
             intervalsStorage.map((item, index) => {
-              if (index === 0) {
-                return null
+              const prevItem = index - 1;
+
+              if(prevItem < 0) {
+                return (
+                  <>
+                  <div className="intervalRes" key={index}>
+                    <div className="order opacity-1"><i className='bi bi-flag-fill'></i>{index + 1}</div>
+                    <div className="difference opacity-1">+ {intervalsStorage[0].time}</div>
+                    <div className="int-time">{intervalsStorage[0].time}</div>
+                  </div>
+                  {
+                    intervalsStorage.length === index + 1 ? null : <div className="line"></div>
+                  }
+                  </>
+                )
               }
               return (
+                <>
                 <div className="intervalRes" key={index}>
                   <div className="order opacity-1"><i className='bi bi-flag-fill'></i>{index + 1}</div>
-                  {/* difference */}
-                  <div className="difference opacity-1">+ {
-                  item?.minute - intervalsStorage[index - 1]?.minute + ":" + 
-                  item?.second - intervalsStorage[index - 1]?.second + "." +
-                  item?.millsecond - intervalsStorage[index - 1]?.millsecond
+                  <div className="difference opacity-1">+ {`
+                    ${item?.minute - intervalsStorage[prevItem].minute}:${item?.second - intervalsStorage[prevItem].second}.${Math.abs(item?.millsecond - intervalsStorage[prevItem].millsecond)}`
                   }</div>
-                  <div className="int-time">{item?.waqit}</div>
+                  <div className="int-time">{item?.time}</div>
                 </div>
+                {
+                  intervalsStorage.length === index + 1 ? null : <div className="line"></div>
+                }
+                </>
               )
             })
           }
