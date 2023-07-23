@@ -13,6 +13,7 @@ class App extends Component {
     pauseBtnState: false, 
     clearBtnState: false,
     intervalsBtnState: false,
+    intervalsDownState: false,
     intervalsStorage: [],
   }
 
@@ -79,6 +80,7 @@ class App extends Component {
       playBtnState: true, 
       pauseBtnState: false, 
       clearBtnState: false,
+      intervalsDownState: false,
       millsecond: 0,
       second: 0,
       minute: 0,
@@ -98,14 +100,27 @@ class App extends Component {
     })
 
     this.setState({
-      intervalsStorage: intervalsStorage
+      intervalsStorage: intervalsStorage,
+      intervalsDownState: true,
     })
+  }
 
-    console.log(intervalsStorage);
+  convertObjectToText = () => {
+    const text = JSON.stringify(this.state.intervalsStorage)
+    return text
+  }
+
+  intervalsDownload = (text, filename) => {
+    const element = document.createElement("a");
+    const file = new Blob([text], {type: 'text/plain'});
+    element.href = URL.createObjectURL(file);
+    element.download = filename;
+    document.body.appendChild(element);
+    element.click();
   }
 
   render() {
-    const { hour, second, minute, millsecond, playBtnState, pauseBtnState, clearBtnState, intervalsBtnState, intervalsStorage } = this.state;
+    const { hour, second, minute, millsecond, playBtnState, pauseBtnState, clearBtnState, intervalsBtnState, intervalsStorage, intervalsDownState } = this.state;
     
     return (
       <div className='container'>
@@ -160,6 +175,14 @@ class App extends Component {
           </button>
           <button className={pauseBtnState ? "control-btn active" : "control-btn disable"} onClick={this.pause}>
             <i className="bi bi-pause-fill"></i>
+          </button>
+          <button className={intervalsDownState ? "control-btn active" : "control-btn disable"} onClick={
+            () => {
+              const text = this.convertObjectToText();
+              this.intervalsDownload(text, 'data.txt')
+            }
+          }>
+            <i className="bi bi-file-arrow-down-fill"></i>
           </button>
         </div>
       </div>
