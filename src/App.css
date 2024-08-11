@@ -37,6 +37,13 @@
 
 .time {
   font-size: 4rem;
+  font-family: 'Chivo Mono';
+}
+
+.not-available {
+  color: #b1b1b1;
+  font-size: .85rem;
+  padding-left: 5%;
 }
 
 .mt-10 {
@@ -88,7 +95,7 @@
   color: #000;
   display: flex;
   flex-direction: column;
-  gap: .8rem;
+  gap: 1.6rem;
   height: 330px;
   overflow-Y: scroll;
 }
@@ -102,14 +109,19 @@
   transform: scale(.6);
   animation: controlBtn .15s both;
 }
+.intervalRes:hover .order {
+  opacity: 1;
+}
 
 .intervalRes i {
+  position: relative;
   font-size: 1rem;
   margin-right: .3rem;
 }
 
 .intervalRes .order {
   width: 23%;
+  transition: 0.15s;
 }
 .intervalRes .difference {
   width: 40%;
@@ -122,6 +134,9 @@
 }
 
 .line {
+  position: absolute;
+  bottom: -0.8rem;
+  left: 0;
   width: 0;
   height: 1px;
   background-color: #c0c0c0;
@@ -129,7 +144,7 @@
 }
 @keyframes lineAnim {
   100% {
-    width: 100%;
+    width: 90%;
   }
 }
 @keyframes controlBtn {

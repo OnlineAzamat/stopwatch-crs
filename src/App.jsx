@@ -129,59 +129,49 @@ class App extends Component {
         </div>
         <div className="timer-container">
           {
-            intervalsStorage.map((item, index) => {
+            !intervalsStorage[0] ? <p className='not-available'>Please add intervals to start the stopwatch</p> : intervalsStorage.map((item, index) => {
               const prevItem = index - 1;
 
-              if(prevItem < 0) {
-                return (
-                  <>
-                  <div className="intervalRes" key={index}>
-                    <div className="order opacity-1"><i className='bi bi-flag-fill'></i>{index + 1}</div>
-                    <div className="difference opacity-1">+ {intervalsStorage[0].time}</div>
-                    <div className="int-time">{intervalsStorage[0].time}</div>
-                  </div>
-                  {
-                    intervalsStorage.length === index + 1 ? null : <div className="line"></div>
-                  }
-                  </>
-                )
-              }
               return (
-                <>
-                <div className="intervalRes" key={index}>
+                <div key={index} className="intervalRes">
                   <div className="order opacity-1"><i className='bi bi-flag-fill'></i>{index + 1}</div>
-                  <div className="difference opacity-1">+ {`
-                    ${item?.minute - intervalsStorage[prevItem].minute}:${item?.second - intervalsStorage[prevItem].second}.${Math.abs(item?.millsecond - intervalsStorage[prevItem].millsecond)}`
-                  }</div>
-                  <div className="int-time">{item?.time}</div>
-                </div>
-                {
-                  intervalsStorage.length === index + 1 ? null : <div className="line"></div>
-                }
-                </>
-              )
+                  {
+                    prevItem < 0 ? 
+                      // first interval
+                      <><div className="difference opacity-1">+ {intervalsStorage[0].time}</div><div className="int-time">{intervalsStorage[0].time}</div></> 
+                      : 
+                      // next intervals
+                      <>
+                        <div className="difference opacity-1">+ {`
+                          ${item?.minute - intervalsStorage[prevItem].minute}:${item?.second - intervalsStorage[prevItem].second}.${Math.abs(item?.millsecond - intervalsStorage[prevItem].millsecond)}`
+                        }</div>
+                        <div className="int-time">{item?.time}</div>
+                      </>
+                  }
+                  {
+                    intervalsStorage.length === index + 1 ? null : <div key={index + "line"} className="line"></div>
+                  }
+                </div>)
             })
           }
         </div>
         <div className="row control-btns">
-          <button className={clearBtnState ? "control-btn active" : "control-btn disable"} onClick={this.clear}>
+          <button title="Clear" className={`control-btn ${clearBtnState ? "active" : "disable"}`} onClick={this.clear}>
             <i className="bi bi-stop-fill"></i>
           </button>
-          <button className={intervalsBtnState ? "control-btn active" : "control-btn disable"} onClick={this.intervalClicked}>
+          <button title="Add interval" className={`control-btn ${intervalsBtnState ? "active" : "disable"}`} onClick={this.intervalClicked}>
             <i className="bi bi-flag-fill"></i>
           </button>
-          <button className={playBtnState ? "control-btn active" : "control-btn disable"} onClick={this.play}>
+          <button title="Start" className={`control-btn ${playBtnState ? "active" : "disable"}`} onClick={this.play}>
             <i className="bi bi-play-fill"></i>
           </button>
-          <button className={pauseBtnState ? "control-btn active" : "control-btn disable"} onClick={this.pause}>
+          <button title="Pause" className={`control-btn ${pauseBtnState ? "active" : "disable"}`} onClick={this.pause}>
             <i className="bi bi-pause-fill"></i>
           </button>
-          <button className={intervalsDownState ? "control-btn active" : "control-btn disable"} onClick={
-            () => {
-              const text = this.convertObjectToText();
-              this.intervalsDownload(text, 'data.txt')
-            }
-          }>
+          <button title="Download to .txt file" className={`control-btn ${intervalsDownState ? "active" : "disable"}`} onClick={() => {
+            const text = this.convertObjectToText();
+            this.intervalsDownload(text, 'data.txt');
+          }}>
             <i className="bi bi-file-arrow-down-fill"></i>
           </button>
         </div>
